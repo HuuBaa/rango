@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rango</title>
+</head>
+<body>
+    <div>
+        {% if category %}
+            <h1>{{category.name}}</h1>
+            <ul>{% if pages%}
+                {% for page in pages %}
+                    <li><a href="{{page.url}}">{{page.title}}</a></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <strong>这个分类中没有pages</strong>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
