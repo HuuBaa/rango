@@ -22,6 +22,6 @@ from django.conf.urls.static import static
 from rango import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^rango/',include('rango.urls'),name='rango'),
-    url(r'^$',views.index,name='index')
+    url(r'^rango/',include('rango.urls')),
+    url(r'^$',views.index,name='index_1')
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
