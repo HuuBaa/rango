@@ -4,6 +4,8 @@
 from django.conf.urls import url
 from . import views
 
+app_name='rango'
+
 urlpatterns=[
     url(r'^about/$',views.about,name='about'),
     url(r'^$',views.index,name='index'),
