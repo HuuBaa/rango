@@ -1,0 +1,23 @@
+{% extends 'rango/base.html'%}
+{% load staticfiles %}
+
+{% block title_block %}
+Register
+{% endblock %}
+
+{% block body_block %}
+    {% if registered %}
+    注册成功！感谢！
+    <a href="{% url 'rango:index' %}">返回主页</a><br>
+    {% else %}
+    在下面进行注册：
+
+    <form action="{% url 'rango:register'%}" method="post" enctype="multipart/form-data">
+        {% csrf_token%}
+        {{user_form.as_p}}
+        {{profile_form.as_p}}
+        <input type="submit" name="submit" value="Register">
+    </form>
+
+    {% endif %}
+{% endblock %}
