@@ -14,7 +14,9 @@
             {% endfor %}
         {% endif %}
     </ul>
+    {% if user.is_authenticated %}
     <a href="{% url 'rango:add_page' category.slug%}">Add a Page</a>
+    {% endif %}
 {% else %}
     <strong>这个分类中没有pages</strong>
 {% endif %}
