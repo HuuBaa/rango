@@ -1,5 +1,5 @@
 
-{% extends 'rango/base.html'%}
+{% extends 'rango/base_bootstrap.html'%}
 {% load staticfiles %}
 
 {% block title_block %}
@@ -7,8 +7,10 @@ Index
 {% endblock %}
 
 {% block body_block %}
-Visits:{{visits}}
-<h1>Rango says...</h1>
+
+<div class="jumbotron">
+
+<h1 class="display-3">Rango says...</h1>
 <div>
     你好啊！<br>
     {% if user.is_authenticated %}
@@ -17,30 +19,35 @@ Visits:{{visits}}
     hi stranger!
     {% endif %}
 </div>
-<div>
-    <h2>Most Liked Categories</h2>
+</div>
+
+<div class="row marketing">
+<div class="col-lg-6">
+    <h4>Most Liked Categories</h4>
     {% if categories_liked %}
-    <ul>
+    <ul class="list-group">
         {% for c in categories_liked%}
-            <li><a href="{% url 'rango:show_category' c.slug %}">{{c.name}}</a></li>
+            <li class="list-group-item"><a href="{% url 'rango:show_category' c.slug %}">{{c.name}}</a></li>
         {% endfor %}
     </ul>
     {% else %}
         <strong>当前没有Category。</strong>
     {% endif %}
 </div>
-<a href="{% url 'rango:add_category' %}">Add a New Category</a><br>
-<div>
-    <h2>Most Viewed Pages</h2>
+
+
+<div class="col-lg-6">
+    <h4>Most Viewed Pages</h4>
         {% if page_list_viewed %}
-        <ul>
+        <ul class="list-group">
             {% for p in page_list_viewed%}
-                <li><a href="{{ p.url }}">{{p.title}}</a></li>
+                <li class="list-group-item"><a href="{{ p.url }}">{{p.title}}</a></li>
             {% endfor %}
         </ul>
         {% else %}
         <strong>NO PAGES</strong>
         {% endif %}
+</div>
 </div>
 
 <div>

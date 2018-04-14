@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.core.urlresolvers import reverse
@@ -151,3 +151,18 @@ def about(request):
     visits=request.session.get('visits')
     return  render(request,'rango/about.html',{'visits':visits})
 
+def track_url(request):
+    page_id=None
+    if request.method=='GET':
+        if 'page_id' in request.GET:
+            page_id=request.GET['page_id']
+    if page_id:
+        try:
+            page=Page.objects.get(id=page_id)
+            page.views=page.views+1
+            page.save()
+            return redirect(page.url)
+        except:
+            return HttpResponseRedirect("page id : {} is not found.".format(page_id))
+    print('no page_id in get string')
+    return redirect(reverse('rango:index'))

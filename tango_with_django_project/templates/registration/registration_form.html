@@ -1,9 +1,31 @@
-{% extends "rango/base.html" %}
+{% extends "rango/base_bootstrap.html" %}
 {% block body_block %}
-<h1>Register Here</h1>
-<form action="." method="post">
+<link href="http://v4-alpha.getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+<br>
+<h2 class="form-signin-heading">Sign Up Here</h2>
+<form action="." method="post" role="form">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit">
+    <div class="form-group">
+    <input name="csrfmiddlewaretoken" value="BXuC760LTX1K6ikXVDMdsfqKvDuQ4HMi" type="hidden">
+    <p class="required">
+        <label class="required" for="id_username">用户名:</label>
+        <input class="form-control" id="id_username" maxlength="30" name="username" type="text"> <span class="helptext">必填。不多于30个字符。只能用字母、数字和字符 @/./+/-/_ 。</span>
+    </p>
+    <p class="required">
+        <label class="required" for="id_email">E-mail:</label>
+        <input class="form-control" id="id_email" name="email" type="email">
+    </p>
+    <p class="required">
+        <label class="required" for="id_password1">密码:</label>
+        <input class="form-control" id="id_password1" name="password1" type="password">
+    </p>
+    <p class="required">
+        <label class="required" for="id_password2">密码确认:</label>
+        <input class="form-control" id="id_password2" name="password2" type="password"> <span class="helptext">为了校验，请输入与上面相同的密码。</span>
+    </p>
+    </div>
+
+   <button type="submit" class="btn btn-primary">Submit</button>
+
 </form>
 {% endblock %}
