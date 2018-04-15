@@ -24,7 +24,7 @@ from rango import views
 from registration.backends.simple.views import RegistrationView
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user=None):
-        return '/rango/'
+        return '/rango/profile_register'
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -33,3 +33,4 @@ urlpatterns = [
     url(r'^accounts/',include('registration.backends.simple.urls')),
     url(r'^$',views.index,name='index_1')
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+

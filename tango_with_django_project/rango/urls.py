@@ -6,8 +6,6 @@ from . import views
 
 app_name='rango'
 
-
-
 urlpatterns=[
     url(r'^about/$',views.about,name='about'),
     url(r'^$',views.index,name='index'),
@@ -18,5 +16,10 @@ urlpatterns=[
     # url(r'^login/$',views.user_login,name='login'),
     url(r'^restricted/$',views.restricted,name='restricted'),
     # url(r'^logout/$',views.user_logout,name='logout'),
-    url(r'^goto/$',views.track_url,name='goto')
+    url(r'^goto/$',views.track_url,name='goto'),
+    url(r'^profile_register/$',views.profile_register,name='profile_register'),
+    url(r'^profile/(?P<username>[\w\-]+)/$',views.profile,name='profile'),
+    url(r'^list_profiles/$',views.list_profiles,name='list_profiles'),
+    url(r'^like/$',views.like_category,name='like_category'),
+    url(r'^suggest/$',views.suggest_category,name='suggest_category')
 ]

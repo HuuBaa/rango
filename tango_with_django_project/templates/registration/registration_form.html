@@ -2,14 +2,16 @@
 {% block body_block %}
 <link href="http://v4-alpha.getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
 <br>
-<h2 class="form-signin-heading">Sign Up Here</h2>
 <form action="." method="post" role="form">
+    <h2 class="form-signin-heading">Sign Up Here</h2>
+
     {% csrf_token %}
+
     <div class="form-group">
-    <input name="csrfmiddlewaretoken" value="BXuC760LTX1K6ikXVDMdsfqKvDuQ4HMi" type="hidden">
     <p class="required">
         <label class="required" for="id_username">用户名:</label>
-        <input class="form-control" id="id_username" maxlength="30" name="username" type="text"> <span class="helptext">必填。不多于30个字符。只能用字母、数字和字符 @/./+/-/_ 。</span>
+        <input class="form-control" id="id_username" maxlength="30" name="username" type="text">
+        <span class="helptext">必填。不多于30个字符。只能用字母、数字和字符 @/./+/-/_ 。</span>
     </p>
     <p class="required">
         <label class="required" for="id_email">E-mail:</label>

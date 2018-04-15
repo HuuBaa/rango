@@ -3,9 +3,9 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
-
-from .models import Category,Page
+from .models import Category,Page,UserProfile
 from .forms import PageForm,CategoryForm,UserForm,UserProfileForm
 from datetime import datetime
 
@@ -60,6 +60,7 @@ def add_category(request):
         else:
             print(form.errors)
     return render(request,'rango/add_category.html',{'form':form})
+
 @login_required
 def add_page(request,category_name_slug):
 
@@ -141,7 +142,7 @@ def restricted(request):
 # @login_required
 # def user_logout(request):
 #     logout(request)
-    return HttpResponseRedirect(reverse('rango:index'))
+#  return HttpResponseRedirect(reverse('rango:index'))
 
 def about(request):
     # if request.session.test_cookie_worked():
@@ -166,3 +167,76 @@ def track_url(request):
             return HttpResponseRedirect("page id : {} is not found.".format(page_id))
     print('no page_id in get string')
     return redirect(reverse('rango:index'))
+
+@login_required
+def profile_register(request):
+    form=UserProfileForm()
+    if request.method=='POST':
+        form=UserProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            user_profile=form.save(commit=False)
+            user_profile.user=request.user
+            user_profile.save()
+            return redirect('rango:index')
+        else:
+            print(form.errors)
+    return render(request,'rango/profile_registration.html',{'form':form})
+
+@login_required
+def profile(request,username):
+    try:
+        user=User.objects.get(username=username)
+    except User.DoesNotExist:
+        return redirect('rango:index')
+
+    userprofile=UserProfile.objects.get_or_create(user=user)[0]
+    form=UserProfileForm({'website':userprofile.website,'picture':userprofile.picture})
+
+    if request.method=='POST':
+        form=UserProfileForm(request.POST,request.FILES,instance=userprofile)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('rango:profile',user.username)
+        else:
+            print(form.errors)
+
+    return render(request,'rango/profile.html',{'userprofile':userprofile,'selecteduser':user,'form':form})
+
+@login_required
+def list_profiles(request):
+    userprofile_list=UserProfile.objects.all()
+    return render(request,'rango/list_profiles.html',{'userprofile_list':userprofile_list})
+
+@login_required
+def like_category(request):
+    cat_id=None
+    if request.method=='GET':
+        cat_id=request.GET['category_id']
+    likes=0
+    if cat_id:
+        cat=Category.objects.get(id=int(cat_id))
+        if cat:
+            likes=cat.likes+1
+            cat.likes=likes
+            cat.save()
+    return HttpResponse(likes)
+
+def get_category_list(max_result=0,starts_with=''):
+    cat_list=[]
+    if starts_with:
+        cat_list=Category.objects.filter(name__istartswith=starts_with)
+
+    if max_result>0:
+        if len(cat_list)>max_result:
+            cat_list=cat_list[:max_result]
+
+    return cat_list
+
+def suggest_category(request):
+    cat_list=[]
+    starts_with=''
+    if request.method=='GET':
+        starts_with=request.GET['suggestion']
+    cat_list=get_category_list(8,starts_with)
+
+    return render(request,'rango/cats.html',{'cats':cat_list})
